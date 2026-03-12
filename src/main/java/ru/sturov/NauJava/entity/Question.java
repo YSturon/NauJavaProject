@@ -1,4 +1,4 @@
-package ru.sturov.NauJava.entity;
+package ru.sturov.naujava.entity;
 
 import java.util.Objects;
 
