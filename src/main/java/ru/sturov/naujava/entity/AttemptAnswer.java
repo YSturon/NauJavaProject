@@ -5,8 +5,7 @@ import jakarta.persistence.*;
 /**
  * Ответ пользователя в рамках конкретной попытки прохождения теста.
  *
- * <p>Связывает {@link QuizAttempt}, {@link Question} и выбранный
- * {@link AnswerOption}.
+ * <p>Связывает {@link QuizAttempt}, {@link Question} и выбранный {@link AnswerOption}.
  */
 @Entity
 @Table(name = "attempt_answers")

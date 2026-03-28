@@ -57,12 +57,8 @@ class QuizAttemptServiceTest {
 
         Category savedCategory = createCategory("Базы данных", "Основы работы с базами данных");
         savedQuiz = createQuiz(savedCategory, "SQL-тест", "Проверка базовых знаний SQL", 20);
-        savedQuestion = createQuestion(
-                savedCategory,
-                savedQuiz,
-                "Как расшифровывается SQL?",
-                1,
-                "Structured Query Language");
+        savedQuestion =
+                createQuestion(savedCategory, savedQuiz, "Как расшифровывается SQL?", 1, "Structured Query Language");
 
         savedCorrectOption = createOption(savedQuestion, "Structured Query Language", true, 1);
         createOption(savedQuestion, "Simple Query Language", false, 2);
@@ -74,8 +70,7 @@ class QuizAttemptServiceTest {
         QuizAttempt attempt = quizAttemptService.submitAttempt(
                 savedQuiz.getId(),
                 "Студент 1",
-                List.of(new AttemptSubmission(savedQuestion.getId(), savedCorrectOption.getId()))
-        );
+                List.of(new AttemptSubmission(savedQuestion.getId(), savedCorrectOption.getId())));
 
         assertThat(attempt.getScore()).isEqualTo(1);
         assertThat(attempt.getAnswers()).hasSize(1);
@@ -88,19 +83,14 @@ class QuizAttemptServiceTest {
     void shouldRollbackTransactionWhenOptionDoesNotBelongToQuestion() {
         Category otherCategory = createCategory("Другое", "Другая категория");
         Quiz otherQuiz = createQuiz(otherCategory, "Другой тест", "Посторонний тест", 10);
-        Question otherQuestion = createQuestion(
-                otherCategory,
-                otherQuiz,
-                "Посторонний вопрос",
-                3,
-                "Постороннее объяснение");
+        Question otherQuestion =
+                createQuestion(otherCategory, otherQuiz, "Посторонний вопрос", 3, "Постороннее объяснение");
         final AnswerOption savedForeignOption = createOption(otherQuestion, "Посторонний вариант", true, 1);
 
         assertThatThrownBy(() -> quizAttemptService.submitAttempt(
-                savedQuiz.getId(),
-                "Студент 2",
-                List.of(new AttemptSubmission(savedQuestion.getId(), savedForeignOption.getId()))
-        ))
+                        savedQuiz.getId(),
+                        "Студент 2",
+                        List.of(new AttemptSubmission(savedQuestion.getId(), savedForeignOption.getId()))))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("Выбранный вариант ответа не относится к вопросу");
 
@@ -134,11 +124,7 @@ class QuizAttemptServiceTest {
     }
 
     private Question createQuestion(
-            Category category,
-            Quiz quiz,
-            String text,
-            int difficultyLevel,
-            String explanation) {
+            Category category, Quiz quiz, String text, int difficultyLevel, String explanation) {
         Question question = new Question();
         question.setText(text);
         question.setDifficultyLevel(difficultyLevel);

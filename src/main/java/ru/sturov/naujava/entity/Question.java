@@ -7,8 +7,8 @@ import java.util.List;
 /**
  * Вопрос теста.
  *
- * <p>Принадлежит конкретному {@link Quiz}, относится к {@link Category}
- * и содержит набор вариантов ответа {@link AnswerOption}.
+ * <p>Принадлежит конкретному {@link Quiz}, относится к {@link Category} и содержит набор вариантов ответа
+ * {@link AnswerOption}.
  */
 @Entity
 @Table(name = "questions")

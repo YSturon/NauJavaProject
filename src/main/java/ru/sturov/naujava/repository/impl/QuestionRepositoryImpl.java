@@ -8,14 +8,12 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import java.util.List;
-import org.springframework.stereotype.Repository;
 import ru.sturov.naujava.entity.Category;
 import ru.sturov.naujava.entity.Question;
 import ru.sturov.naujava.entity.Quiz;
 import ru.sturov.naujava.repository.custom.QuestionCriteriaRepository;
 
-@Repository
-public class QuestionCriteriaRepositoryImpl implements QuestionCriteriaRepository {
+public class QuestionRepositoryImpl implements QuestionCriteriaRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -32,7 +30,6 @@ public class QuestionCriteriaRepositoryImpl implements QuestionCriteriaRepositor
         Predicate categoryPredicate = cb.equal(categoryJoin.get("name"), categoryName);
 
         cq.select(root).where(cb.and(difficultyPredicate, categoryPredicate));
-
         return entityManager.createQuery(cq).getResultList();
     }
 
@@ -45,7 +42,6 @@ public class QuestionCriteriaRepositoryImpl implements QuestionCriteriaRepositor
 
         Predicate quizTitlePredicate = cb.equal(quizJoin.get("title"), quizTitle);
         cq.select(root).where(quizTitlePredicate);
-
         return entityManager.createQuery(cq).getResultList();
     }
 }
