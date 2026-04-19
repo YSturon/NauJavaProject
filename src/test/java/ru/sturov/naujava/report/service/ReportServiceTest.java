@@ -12,16 +12,16 @@ import ru.sturov.naujava.auth.entity.AppUser;
 import ru.sturov.naujava.auth.entity.AppUserRole;
 import ru.sturov.naujava.auth.repository.AppUserRepository;
 import ru.sturov.naujava.entity.Category;
+import ru.sturov.naujava.report.dto.ReportContentView;
+import ru.sturov.naujava.report.entity.Report;
+import ru.sturov.naujava.report.entity.ReportStatus;
+import ru.sturov.naujava.report.repository.ReportRepository;
 import ru.sturov.naujava.repository.AnswerOptionRepository;
 import ru.sturov.naujava.repository.AttemptAnswerRepository;
 import ru.sturov.naujava.repository.CategoryRepository;
 import ru.sturov.naujava.repository.QuestionRepository;
 import ru.sturov.naujava.repository.QuizAttemptRepository;
 import ru.sturov.naujava.repository.QuizRepository;
-import ru.sturov.naujava.report.dto.ReportContentView;
-import ru.sturov.naujava.report.entity.Report;
-import ru.sturov.naujava.report.entity.ReportStatus;
-import ru.sturov.naujava.report.repository.ReportRepository;
 
 @SpringBootTest
 @DisplayName("ReportService")
@@ -87,9 +87,7 @@ class ReportServiceTest {
         ReportContentView contentView = reportService.getReportContent(reportId).orElseThrow();
 
         assertThat(contentView.status()).isEqualTo(ReportStatus.CREATED);
-        assertThat(contentView.htmlContent())
-                .contains("Отчет формируется")
-                .contains("CREATED");
+        assertThat(contentView.htmlContent()).contains("Отчет формируется").contains("CREATED");
     }
 
     @Test
