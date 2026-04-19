@@ -13,10 +13,10 @@
 </head>
 <body>
 <div class="toolbar">
-    <h1>Список категорий</h1>
-    <form th:action="@{/logout}" method="post">
+    <h1 data-testid="category-page-title">Список категорий</h1>
+    <form th:action="@{/logout}" method="post" data-testid="logout-form">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-        <button type="submit">Выйти</button>
+        <button type="submit" data-testid="logout-button">Выйти</button>
     </form>
 </div>
 <table>
