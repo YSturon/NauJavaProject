@@ -1,4 +1,4 @@
-package ru.sturov.NauJava;
+package ru.sturov.naujava;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
