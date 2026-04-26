@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle}">Отчет приложения</title>
+    <style>
+        body { margin: 0; padding: 24px; background: #f4f6f8; color: #1f2937; font-family: Arial, sans-serif; }
+        .page { max-width: 1100px; margin: 0 auto; }
+        .card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+        .muted { color: #6b7280; margin: 8px 0 0; }
+        .badge {
+            display: inline-block;
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .badge-created { background: #fef3c7; color: #92400e; }
+        .badge-completed { background: #dcfce7; color: #166534; }
+        .badge-error { background: #fee2e2; color: #991b1b; }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+        .metric {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 16px;
+        }
+        .metric-title { margin: 0 0 8px; font-size: 14px; color: #6b7280; }
+        .metric-value { margin: 0; font-size: 28px; font-weight: bold; }
+        .message { font-size: 16px; line-height: 1.6; }
+        .error-text { color: #991b1b; }
+        table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+        th, td { padding: 10px 12px; border-bottom: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+        th { background: #f3f4f6; }
+        @media (max-width: 768px) {
+            body { padding: 16px; }
+            .header { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+<main class="page">
+    <section class="card">
+        <div class="header">
+            <div>
+                <h1 th:text="${pageTitle}">Отчет приложения</h1>
+                <p class="muted">Отчет по статистике приложения и справочнику категорий.</p>
+            </div>
+            <span class="badge" th:classappend="${statusCssClass}" th:text="${statusName}">CREATED</span>
+        </div>
+        <p><strong>ID отчета:</strong> <span th:text="${reportId}">1</span></p>
+    </section>
+
+    <section class="card" th:if="${pending}">
+        <p class="message">
+            Отчет с ID <strong th:text="${reportId}">1</strong> еще формируется.
+            Повторите запрос немного позже.
+        </p>
+    </section>
+
+    <section class="card" th:if="${error}">
+        <p class="message error-text">
+            При формировании отчета произошла ошибка:
+            <strong th:text="${errorMessage}">Текст ошибки</strong>
+        </p>
+    </section>
+
+    <section class="card" th:if="${missing}">
+        <p class="message error-text" th:text="${errorMessage}">
+            Отчет не найден.
+        </p>
+    </section>
+
+    <section class="card" th:if="${completed}">
+        <h2>Ключевые показатели</h2>
+        <div class="metrics">
+            <article class="metric">
+                <p class="metric-title">Количество зарегистрированных пользователей</p>
+                <p class="metric-value" th:text="${registeredUsers}">0</p>
+            </article>
+            <article class="metric">
+                <p class="metric-title">Время расчета пользователей, мс</p>
+                <p class="metric-value" th:text="${usersElapsedMs}">0</p>
+            </article>
+            <article class="metric">
+                <p class="metric-title">Время выборки категорий, мс</p>
+                <p class="metric-value" th:text="${categoriesElapsedMs}">0</p>
+            </article>
+            <article class="metric">
+                <p class="metric-title">Общее время формирования, мс</p>
+                <p class="metric-value" th:text="${totalElapsedMs}">0</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="card" th:if="${completed}">
+        <h2>Список категорий</h2>
+
+        <p class="message" th:if="${#lists.isEmpty(categories)}">
+            Категории отсутствуют.
+        </p>
+
+        <table th:if="${!#lists.isEmpty(categories)}">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Активна</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="category : ${categories}">
+                <td th:text="${category.id}">1</td>
+                <td th:text="${category.name}">Java Core</td>
+                <td th:text="${category.description}">Базовые темы Java</td>
+                <td th:text="${category.activeLabel}">Да</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+</body>
+</html>
