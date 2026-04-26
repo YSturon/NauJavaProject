@@ -51,7 +51,8 @@ public class QuizAttemptServiceImpl implements QuizAttemptService {
     @Override
     @Transactional
     public QuizAttempt submitAttempt(Long quizId, String userName, List<AttemptSubmission> submissions) {
-        Quiz quiz = quizRepository.findById(quizId)
+        Quiz quiz = quizRepository
+                .findById(quizId)
                 .orElseThrow(() -> new IllegalArgumentException("Тест не найден: " + quizId));
 
         QuizAttempt attempt = new QuizAttempt();
@@ -65,10 +66,12 @@ public class QuizAttemptServiceImpl implements QuizAttemptService {
         int score = 0;
 
         for (AttemptSubmission submission : submissions) {
-            Question question = questionRepository.findById(submission.getQuestionId())
+            Question question = questionRepository
+                    .findById(submission.getQuestionId())
                     .orElseThrow(() -> new IllegalArgumentException("Вопрос не найден: " + submission.getQuestionId()));
 
-            AnswerOption option = answerOptionRepository.findById(submission.getSelectedOptionId())
+            AnswerOption option = answerOptionRepository
+                    .findById(submission.getSelectedOptionId())
                     .orElseThrow(() -> new IllegalArgumentException(
                             "Вариант ответа не найден: " + submission.getSelectedOptionId()));
 

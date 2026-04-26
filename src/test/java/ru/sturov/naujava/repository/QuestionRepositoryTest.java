@@ -35,12 +35,7 @@ class QuestionRepositoryTest {
         savedCategory = createCategory("Java Core", "Базовые темы Java");
         savedQuiz = createQuiz(savedCategory, "Основы Java", "Проверка базовых знаний", 30);
 
-        createQuestion(
-                savedCategory,
-                savedQuiz,
-                "Что такое JVM?",
-                2,
-                "Виртуальная машина Java");
+        createQuestion(savedCategory, savedQuiz, "Что такое JVM?", 2, "Виртуальная машина Java");
     }
 
     @Test
@@ -48,10 +43,7 @@ class QuestionRepositoryTest {
     void shouldFindQuestionByDifficultyAndCategoryNameUsingQueryMethod() {
         List<Question> result = questionRepository.findByDifficultyLevelAndCategoryName(2, "Java Core");
 
-        assertThat(result)
-                .hasSize(1)
-                .extracting(Question::getText)
-                .containsExactly("Что такое JVM?");
+        assertThat(result).hasSize(1).extracting(Question::getText).containsExactly("Что такое JVM?");
     }
 
     @Test
@@ -59,22 +51,15 @@ class QuestionRepositoryTest {
     void shouldFindQuestionByQuizTitleUsingJpql() {
         List<Question> result = questionRepository.findByQuizTitle("Основы Java");
 
-        assertThat(result)
-                .hasSize(1)
-                .extracting(Question::getExplanation)
-                .containsExactly("Виртуальная машина Java");
+        assertThat(result).hasSize(1).extracting(Question::getExplanation).containsExactly("Виртуальная машина Java");
     }
 
     @Test
     @DisplayName("Ищет вопрос по уровню сложности и названию категории через Criteria API")
     void shouldFindQuestionByDifficultyAndCategoryNameUsingCriteria() {
-        List<Question> result =
-                questionRepository.searchByDifficultyLevelAndCategoryNameUsingCriteria(2, "Java Core");
+        List<Question> result = questionRepository.searchByDifficultyLevelAndCategoryNameUsingCriteria(2, "Java Core");
 
-        assertThat(result)
-                .hasSize(1)
-                .extracting(Question::getText)
-                .containsExactly("Что такое JVM?");
+        assertThat(result).hasSize(1).extracting(Question::getText).containsExactly("Что такое JVM?");
     }
 
     @Test
@@ -82,10 +67,7 @@ class QuestionRepositoryTest {
     void shouldFindQuestionByQuizTitleUsingCriteria() {
         List<Question> result = questionRepository.searchByQuizTitleUsingCriteria("Основы Java");
 
-        assertThat(result)
-                .hasSize(1)
-                .extracting(Question::getExplanation)
-                .containsExactly("Виртуальная машина Java");
+        assertThat(result).hasSize(1).extracting(Question::getExplanation).containsExactly("Виртуальная машина Java");
     }
 
     private void clearDatabase() {
@@ -112,11 +94,7 @@ class QuestionRepositoryTest {
     }
 
     private Question createQuestion(
-            Category category,
-            Quiz quiz,
-            String text,
-            int difficultyLevel,
-            String explanation) {
+            Category category, Quiz quiz, String text, int difficultyLevel, String explanation) {
         Question question = new Question();
         question.setText(text);
         question.setDifficultyLevel(difficultyLevel);

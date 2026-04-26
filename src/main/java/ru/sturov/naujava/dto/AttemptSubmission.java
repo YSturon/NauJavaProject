@@ -5,8 +5,7 @@ public class AttemptSubmission {
     private Long questionId;
     private Long selectedOptionId;
 
-    public AttemptSubmission() {
-    }
+    public AttemptSubmission() {}
 
     public AttemptSubmission(Long questionId, Long selectedOptionId) {
         this.questionId = questionId;

@@ -4,6 +4,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.annotation.RestResource;
 import ru.sturov.naujava.entity.Question;
 import ru.sturov.naujava.repository.custom.QuestionCriteriaRepository;
 
@@ -17,8 +19,8 @@ import ru.sturov.naujava.repository.custom.QuestionCriteriaRepository;
  *   <li>{@link #findByQuizTitle(String)} - JPQL через связанную сущность.
  * </ul>
  */
-public interface QuestionRepository
-        extends CrudRepository<Question, Long>, QuestionCriteriaRepository {
+@RepositoryRestResource(path = "questions")
+public interface QuestionRepository extends CrudRepository<Question, Long>, QuestionCriteriaRepository {
 
     /**
      * Ищет вопросы по уровню сложности и названию категории.
@@ -27,6 +29,7 @@ public interface QuestionRepository
      * @param categoryName название категории
      * @return список подходящих вопросов
      */
+    @RestResource(path = "by-difficulty-and-category", rel = "by-difficulty-and-category")
     List<Question> findByDifficultyLevelAndCategoryName(Integer difficultyLevel, String categoryName);
 
     /**
@@ -35,7 +38,9 @@ public interface QuestionRepository
      * @param quizTitle название теста
      * @return список вопросов, относящихся к тесту
      */
-    @Query("""
+    @RestResource(path = "by-quiz-title", rel = "by-quiz-title")
+    @Query(
+            """
             select q
             from Question q
             where q.quiz.title = :quizTitle
